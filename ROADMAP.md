@@ -11,21 +11,21 @@ linear_project: Development
 
 ## Current Focus
 
-- **Target:** v0.1.4 - Release Identity Integrity
-- **Outcome:** Runtime consumers share one dependency-light public Go module
-  for runtime leases, provider execution, inventory, and StackKits actions.
-- **Exit gate:** Golden fixtures and generation provenance pass, Techstack and
-  bounded conformance consumers compile against the exact module revision, and
-  no retired compatibility path remains in the coordinated cutover.
-- **Blocking bugs:** Beads label `blocks:v0.1.4`
+- **Target:** v0.2.0 - Compatibility Evidence
+- **Outcome:** Every active consumer proves exact fixture compatibility with
+  the four public runtime-contract packages before contract drift can merge.
+- **Exit gate:** Consumer fixtures bind the exact contract source, additive and
+  breaking-change evidence is explicit, and reusable fuzz corpora cover closed
+  JSON and digest validation.
+- **Blocking bugs:** Beads label `blocks:v0.2.0`
 
 ## Expansion Track
 
 | Version | Stage | State | Outcome |
 | --- | --- | --- | --- |
 | v0.1.0 | Runtime Contract Authority Baseline | superseded | Four contract packages, generation provenance, public boundary checks, and coordinated consumer compilation are proven. |
-| v0.1.4 | Release Identity Integrity | current | Source version, requested Delivery version, and immutable module tag are one fail-closed identity. |
-| v0.2.0 | Compatibility Evidence | planned | Cross-repository fixture verification and breaking-change evidence are automated for every consumer. |
+| v0.1.4 | Release Identity Integrity | released | Source version, requested Delivery version, and immutable module tag are one fail-closed identity. |
+| v0.2.0 | Compatibility Evidence | current | Cross-repository fixture verification and breaking-change evidence are automated for every consumer. |
 | v0.3.0 | Release Discipline | planned | Release notes, source attestations, and compatibility policy are exercised across multiple upgrades. |
 
 ## v0.1.0 - Runtime Contract Authority Baseline
@@ -58,15 +58,15 @@ linear_project: Development
 - [x] Reject release versions, tags, plan identity, or existing release
   metadata that differ from the exact source-derived Delivery Plan.
 - [x] Keep Release Please version files aligned with its release proposal.
-- [ ] Publish `v0.1.4` only through an explicitly approved Delivery run from exact `main`.
+- [x] Publish `v0.1.4` only through an explicitly approved Delivery run from exact `main`.
 
 **Exit gate**
 
 - [x] Unit and workflow contract tests cover source, version, tag, plan-digest,
   and idempotent release-metadata mismatches.
 - [x] The dependency-light four-package public boundary remains unchanged.
-- [ ] `v0.1.4` resolves to exact approved `main` and its GitHub release is verified.
-- [ ] No open P0/P1 Beads bugs with `blocks:v0.1.4`.
+- [x] `v0.1.4` resolves to exact approved `main` and its GitHub release is verified.
+- [x] No open P0/P1 Beads bugs with `blocks:v0.1.4`.
 
 ## v0.2.0 - Compatibility Evidence
 
@@ -80,6 +80,7 @@ linear_project: Development
 
 - [ ] Every active consumer proves fixture compatibility in its own repository.
 - [ ] Contract drift fails before a consumer merge.
+- [ ] No open P0/P1 Beads bugs with `blocks:v0.2.0`.
 
 ## v0.3.0 - Release Discipline
 
