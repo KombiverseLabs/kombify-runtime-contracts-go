@@ -46,6 +46,20 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Check out immutable delivery compiler
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          repository: KombiverseLabs/kombify-workspace
+          ref: ac1a61286c11121c62a4c4f007fd8974f90a94b0
+          path: standards
+          token: ${{ secrets.GH_PAT }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: "24"
+
       - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version-file: go.mod
@@ -53,7 +67,9 @@ jobs:
 
       - name: Verify immutable module release identity
         env:
+          DELIVERY_PLAN_DIGEST: ${{ inputs.delivery_plan_digest }}
           DELIVERY_PROFILE: ${{ inputs.delivery_profile }}
+          DELIVERY_RELEASE_ID: ${{ inputs.delivery_release_id }}
           DELIVERY_SOURCE_SHA: ${{ inputs.delivery_source_sha }}
           DELIVERY_TAG: ${{ inputs.delivery_tag }}
           DELIVERY_VERSION: ${{ inputs.delivery_version }}
@@ -71,6 +87,38 @@ jobs:
             stable-1.0-plus) [[ "$DELIVERY_VERSION" != 0.* ]] ;;
             *) echo "::error::unsupported delivery profile $DELIVERY_PROFILE"; exit 1 ;;
           esac
+          SOURCE_MAP_JSON="$(node -e 'process.stdout.write(JSON.stringify({"kombify-runtime-contracts-go": process.env.DELIVERY_SOURCE_SHA}))')"
+          node standards/scripts/delivery-platform.mjs compile \
+            --snapshot \
+            --product runtime-contracts \
+            --version "$DELIVERY_VERSION" \
+            --contract .kombify/delivery.json \
+            --source-json "$SOURCE_MAP_JSON" \
+            --output delivery-plan.json
+          node standards/scripts/delivery-platform.mjs validate-plan \
+            --plan delivery-plan.json
+          node <<'NODE'
+          const fs = require("node:fs");
+          const plan = JSON.parse(fs.readFileSync("delivery-plan.json", "utf8"));
+          const expected = {
+            plan_digest: process.env.DELIVERY_PLAN_DIGEST,
+            profile: process.env.DELIVERY_PROFILE,
+            release_id: process.env.DELIVERY_RELEASE_ID,
+            version: process.env.DELIVERY_VERSION,
+            source_sha: process.env.DELIVERY_SOURCE_SHA,
+          };
+          for (const key of ["plan_digest", "profile", "release_id", "version"]) {
+            if (plan[key] !== expected[key]) {
+              throw new Error(`compiled Delivery Plan ${key} does not match the adapter input`);
+            }
+          }
+          if (plan.product_id !== "runtime-contracts" ||
+              plan.owner_repository !== "kombify-runtime-contracts-go" ||
+              plan.sources?.["kombify-runtime-contracts-go"] !== expected.source_sha ||
+              plan.correlation?.full_sha !== expected.source_sha) {
+            throw new Error("compiled Delivery Plan is not bound to the exact runtime-contracts source");
+          }
+          NODE
 
       - name: Create or verify immutable module tag
         env:
@@ -98,15 +146,36 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          expected_title="kombify-runtime-contracts-go $DELIVERY_TAG"
+          expected_body="Delivery Platform v2 release $DELIVERY_RELEASE_ID from $DELIVERY_SOURCE_SHA."
+          expected_prerelease=false
+          if [ "$DELIVERY_PROFILE" = "fast-pre-1.0" ]; then
+            expected_prerelease=true
+          fi
           if ! gh release view "$DELIVERY_TAG" >/dev/null 2>&1; then
             prerelease=()
-            if [ "$DELIVERY_PROFILE" = "fast-pre-1.0" ]; then
+            if [ "$expected_prerelease" = "true" ]; then
               prerelease=(--prerelease)
             fi
             gh release create "$DELIVERY_TAG" \
               --verify-tag \
               "${prerelease[@]}" \
-              --title "kombify-runtime-contracts-go $DELIVERY_TAG" \
-              --notes "Delivery Platform v2 release $DELIVERY_RELEASE_ID from $DELIVERY_SOURCE_SHA."
+              --title "$expected_title" \
+              --notes "$expected_body"
           fi
-          gh release view "$DELIVERY_TAG" --json tagName,isPrerelease,url
+          gh release view "$DELIVERY_TAG" --json tagName,isPrerelease,name,body,url > release.json
+          EXPECTED_TITLE="$expected_title" \
+          EXPECTED_BODY="$expected_body" \
+          EXPECTED_PRERELEASE="$expected_prerelease" \
+          node <<'NODE'
+          const fs = require("node:fs");
+          const release = JSON.parse(fs.readFileSync("release.json", "utf8"));
+          const expectedPrerelease = process.env.EXPECTED_PRERELEASE === "true";
+          if (release.tagName !== process.env.DELIVERY_TAG ||
+              release.name !== process.env.EXPECTED_TITLE ||
+              release.body !== process.env.EXPECTED_BODY ||
+              release.isPrerelease !== expectedPrerelease) {
+            throw new Error("existing GitHub release metadata does not match the exact Delivery Plan");
+          }
+          process.stdout.write(`${release.url}\n`);
+          NODE

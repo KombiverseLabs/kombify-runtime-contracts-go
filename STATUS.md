@@ -33,6 +33,9 @@ maturity: alpha
 - Package unit and wire-compatibility tests cover lease validation and signed
   snapshots, provider command/receipt state transitions, inventory field
   safety, generated StackAction wire behavior, and Golden JSON.
+- The release adapter recompiles the plan with the same immutable central
+  compiler used by Delivery v2, rejects a different plan digest or identity,
+  and accepts a repeated release only when all GitHub release metadata matches.
 - CI runs formatting, `go vet`, race-enabled tests, build, and the boundary
   suite with a ten-minute job budget.
 

@@ -55,15 +55,18 @@ linear_project: Development
 
 - [x] Correct the committed source version after the immutable `v0.1.3` historical release.
 - [x] Bind Delivery Plan version derivation to the exact committed source version.
-- [x] Reject release versions or tags that differ from `.kombify/VERSION`.
+- [x] Reject release versions, tags, plan identity, or existing release
+  metadata that differ from the exact source-derived Delivery Plan.
 - [x] Keep Release Please version files aligned with its release proposal.
 - [ ] Publish `v0.1.4` only through an explicitly approved Delivery run from exact `main`.
 
 **Exit gate**
 
-- [x] Unit and workflow contract tests cover source, version, and tag mismatches.
+- [x] Unit and workflow contract tests cover source, version, tag, plan-digest,
+  and idempotent release-metadata mismatches.
 - [x] The dependency-light four-package public boundary remains unchanged.
 - [ ] `v0.1.4` resolves to exact approved `main` and its GitHub release is verified.
+- [ ] No open P0/P1 Beads bugs with `blocks:v0.1.4`.
 
 ## v0.2.0 - Compatibility Evidence
 
