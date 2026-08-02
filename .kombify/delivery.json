@@ -1,0 +1,43 @@
+{
+  "$schema": "https://kombify.io/schemas/product-delivery-contract.v1.json",
+  "schema_version": 1,
+  "product_id": "runtime-contracts",
+  "release_policy": {
+    "strategy": "semver",
+    "stable_at": "1.0.0"
+  },
+  "participating_repositories": [
+    "kombify-runtime-contracts-go"
+  ],
+  "artifacts": [
+    {
+      "id": "go-module",
+      "class": "library-package",
+      "source_repository": "kombify-runtime-contracts-go",
+      "routes": {
+        "fast": {
+          "channel": "prerelease",
+          "target_ref": "runtime-contracts-module"
+        },
+        "stable": {
+          "channel": "stable",
+          "target_ref": "runtime-contracts-module"
+        }
+      },
+      "tasks": {
+        "build": "mise://delivery:build",
+        "validate": "mise://delivery:validate",
+        "publish": "mise://delivery:publish",
+        "promote": "mise://delivery:promote",
+        "smoke": "mise://delivery:smoke",
+        "async": "mise://delivery:async"
+      },
+      "recovery": {
+        "fast": "forward-fix",
+        "stable": "halt-corrective-release"
+      },
+      "secret_bindings": [],
+      "telemetry_service": "runtime-contracts.module"
+    }
+  ]
+}

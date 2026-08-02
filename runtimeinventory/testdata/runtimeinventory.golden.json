@@ -1,0 +1,201 @@
+{
+  "server_page": {
+    "observed_at": "2026-07-21T10:11:12.123456789Z",
+    "freshness": {
+      "state": "fresh",
+      "age_seconds": 12,
+      "stale_after_seconds": 90
+    },
+    "inventory_revision": 7,
+    "collection_cursor": "servers-cursor",
+    "next_cursor": "servers-next",
+    "page_size": 1,
+    "servers": [
+      {
+        "id": "server-1",
+        "stack_id": "stack-1",
+        "name": "Runtime One",
+        "observed_at": "2026-07-21T10:11:12.123456789Z",
+        "freshness": {
+          "state": "fresh",
+          "age_seconds": 12,
+          "stale_after_seconds": 90
+        },
+        "inventory_revision": 7,
+        "addresses": {
+          "public_ips": [
+            "203.0.113.10"
+          ],
+          "private_ips": [
+            "10.0.0.4"
+          ],
+          "local_ips": [
+            "192.168.1.4"
+          ],
+          "domains": [
+            "runtime.example.test"
+          ]
+        },
+        "platform": {
+          "os": "ubuntu",
+          "os_version": "24.04",
+          "arch": "amd64"
+        },
+        "stackkit": {
+          "name": "cloud-kit",
+          "version": "1.2.3",
+          "variant": "main"
+        },
+        "provider": "ionos",
+        "lifecycle": {
+          "state": "active",
+          "reason_code": "enrolled",
+          "changed_at": "2026-07-21T10:11:12.123456789Z"
+        },
+        "desired": {
+          "state": "running",
+          "reason_code": "operator_requested",
+          "changed_at": "2026-07-21T10:11:12.123456789Z"
+        },
+        "lease": {
+          "id": "lease-1",
+          "state": "active"
+        },
+        "cleanup": {
+          "state": "absent",
+          "provider_absence_verified": true,
+          "verified_at": "2026-07-21T10:11:12.123456789Z"
+        },
+        "connection": {
+          "state": "connected",
+          "reason_code": "guard_connected",
+          "changed_at": "2026-07-21T10:11:12.123456789Z",
+          "observed_at": "2026-07-21T10:11:12.123456789Z"
+        },
+        "health": {
+          "state": "healthy",
+          "reason_code": "checks_passing",
+          "changed_at": "2026-07-21T10:11:12.123456789Z",
+          "observed_at": "2026-07-21T10:11:12.123456789Z"
+        }
+      }
+    ]
+  },
+  "service_page": {
+    "observed_at": "2026-07-21T10:11:12.123456789Z",
+    "freshness": {
+      "state": "fresh",
+      "age_seconds": 12,
+      "stale_after_seconds": 90
+    },
+    "inventory_revision": 7,
+    "collection_cursor": "services-cursor",
+    "next_cursor": "services-next",
+    "page_size": 1,
+    "services": [
+      {
+        "id": "service-1",
+        "stack_id": "stack-1",
+        "server_id": "server-1",
+        "key": "coolify",
+        "name": "Coolify",
+        "observed_state": "running",
+        "observed_at": "2026-07-21T10:11:12.123456789Z",
+        "freshness": {
+          "state": "fresh",
+          "age_seconds": 12,
+          "stale_after_seconds": 90
+        },
+        "inventory_revision": 7,
+        "health": {
+          "state": "healthy",
+          "reason_code": "checks_passing",
+          "changed_at": "2026-07-21T10:11:12.123456789Z",
+          "observed_at": "2026-07-21T10:11:12.123456789Z"
+        },
+        "stackkit": {
+          "version": "1.2.3"
+        },
+        "links": [
+          {
+            "url": "https://coolify.example.test",
+            "mode": "relay"
+          }
+        ],
+        "source": "guard-inventory"
+      }
+    ]
+  },
+  "health": {
+    "server_id": "server-1",
+    "observed_at": "2026-07-21T10:11:12.123456789Z",
+    "freshness": {
+      "state": "fresh",
+      "age_seconds": 12,
+      "stale_after_seconds": 90
+    },
+    "inventory_revision": 7,
+    "connection": {
+      "state": "connected",
+      "reason_code": "guard_connected",
+      "changed_at": "2026-07-21T10:11:12.123456789Z",
+      "observed_at": "2026-07-21T10:11:12.123456789Z"
+    },
+    "health": {
+      "state": "healthy",
+      "reason_code": "checks_passing",
+      "changed_at": "2026-07-21T10:11:12.123456789Z",
+      "observed_at": "2026-07-21T10:11:12.123456789Z"
+    }
+  },
+  "access_context": {
+    "server_id": "server-1",
+    "observed_at": "2026-07-21T10:11:12.123456789Z",
+    "freshness": {
+      "state": "fresh",
+      "age_seconds": 12,
+      "stale_after_seconds": 90
+    },
+    "inventory_revision": 7,
+    "availability": {
+      "state": "available"
+    },
+    "connection": {
+      "state": "connected",
+      "reason_code": "guard_connected",
+      "changed_at": "2026-07-21T10:11:12.123456789Z",
+      "observed_at": "2026-07-21T10:11:12.123456789Z"
+    },
+    "addresses": {
+      "public_ips": [
+        "203.0.113.10"
+      ],
+      "private_ips": [
+        "10.0.0.4"
+      ],
+      "local_ips": [
+        "192.168.1.4"
+      ],
+      "domains": [
+        "runtime.example.test"
+      ]
+    },
+    "channels": [
+      {
+        "type": "guard-api",
+        "role": "primary",
+        "state": "connected",
+        "observed_at": "2026-07-21T10:11:12.123456789Z"
+      }
+    ],
+    "service_links": [
+      {
+        "service_id": "service-1",
+        "service_name": "Coolify",
+        "url": "https://coolify.example.test",
+        "mode": "relay",
+        "health": "healthy"
+      }
+    ]
+  }
+}

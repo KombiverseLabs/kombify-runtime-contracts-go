@@ -1,0 +1,106 @@
+name: Delivery release
+
+on:
+  workflow_dispatch:
+    inputs:
+      delivery_version:
+        description: Publishable SemVer derived from the Delivery Plan and source SHA.
+        required: true
+        type: string
+      delivery_tag:
+        description: Publishable v-prefixed tag derived from the Delivery Plan.
+        required: true
+        type: string
+      delivery_profile:
+        description: Delivery v2 maturity profile selected from the committed product version.
+        required: true
+        type: string
+      delivery_plan_digest:
+        description: Immutable Delivery Plan digest authorizing this adapter run.
+        required: true
+        type: string
+      delivery_release_id:
+        description: Exact product release identity from Delivery Platform v2.
+        required: true
+        type: string
+      delivery_source_sha:
+        description: Exact source revision authorized by the Delivery Plan.
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: delivery-release-${{ inputs.delivery_tag }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: ${{ inputs.delivery_source_sha }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Verify immutable module release identity
+        env:
+          DELIVERY_PROFILE: ${{ inputs.delivery_profile }}
+          DELIVERY_SOURCE_SHA: ${{ inputs.delivery_source_sha }}
+          DELIVERY_TAG: ${{ inputs.delivery_tag }}
+          DELIVERY_VERSION: ${{ inputs.delivery_version }}
+        run: |
+          set -euo pipefail
+          [[ "$DELIVERY_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$DELIVERY_VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$ ]]
+          test "$DELIVERY_TAG" = "v$DELIVERY_VERSION"
+          test "$(git rev-parse HEAD)" = "$DELIVERY_SOURCE_SHA"
+          git fetch origin main --no-tags
+          test "$(git rev-parse origin/main)" = "$DELIVERY_SOURCE_SHA"
+          case "$DELIVERY_PROFILE" in
+            fast-pre-1.0) [[ "$DELIVERY_VERSION" == 0.*-* ]] ;;
+            stable-1.0-plus) [[ "$DELIVERY_VERSION" != 0.* ]] && [[ "$DELIVERY_VERSION" != *-* ]] ;;
+            *) echo "::error::unsupported delivery profile $DELIVERY_PROFILE"; exit 1 ;;
+          esac
+
+      - name: Create or verify immutable module tag
+        env:
+          DELIVERY_SOURCE_SHA: ${{ inputs.delivery_source_sha }}
+          DELIVERY_TAG: ${{ inputs.delivery_tag }}
+        run: |
+          set -euo pipefail
+          remote_target="$(git ls-remote --tags origin "refs/tags/$DELIVERY_TAG^{}" | cut -f1)"
+          if [ -z "$remote_target" ]; then
+            remote_target="$(git ls-remote --tags origin "refs/tags/$DELIVERY_TAG" | cut -f1)"
+          fi
+          if [ -n "$remote_target" ]; then
+            test "$remote_target" = "$DELIVERY_SOURCE_SHA"
+          else
+            git tag "$DELIVERY_TAG" "$DELIVERY_SOURCE_SHA"
+            git push origin "refs/tags/$DELIVERY_TAG"
+          fi
+
+      - name: Create or verify GitHub release
+        env:
+          DELIVERY_PROFILE: ${{ inputs.delivery_profile }}
+          DELIVERY_RELEASE_ID: ${{ inputs.delivery_release_id }}
+          DELIVERY_SOURCE_SHA: ${{ inputs.delivery_source_sha }}
+          DELIVERY_TAG: ${{ inputs.delivery_tag }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! gh release view "$DELIVERY_TAG" >/dev/null 2>&1; then
+            prerelease=()
+            if [ "$DELIVERY_PROFILE" = "fast-pre-1.0" ]; then
+              prerelease=(--prerelease)
+            fi
+            gh release create "$DELIVERY_TAG" \
+              --verify-tag \
+              "${prerelease[@]}" \
+              --title "kombify-runtime-contracts-go $DELIVERY_TAG" \
+              --notes "Delivery Platform v2 release $DELIVERY_RELEASE_ID from $DELIVERY_SOURCE_SHA."
+          fi
+          gh release view "$DELIVERY_TAG" --json tagName,isPrerelease,url

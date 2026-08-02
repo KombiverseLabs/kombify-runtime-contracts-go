@@ -1,0 +1,76 @@
+[tools]
+go = "1.26.5"
+golangci-lint = "2.12.2"
+
+[env]
+PROJECT_NAME = "kombify-runtime-contracts-go"
+GOWORK = "off"
+
+[tasks.format]
+description = "Format Go source"
+run = "gofmt -w ."
+
+[tasks."format:check"]
+description = "Fail when Go source is not formatted"
+run = "go run ./internal/cmd/contractcheck -mode=format"
+
+[tasks.test]
+description = "Run the complete dependency-light contract suite"
+run = "go test -count=1 ./..."
+
+[tasks."test:race"]
+description = "Run the contract suite with the race detector"
+env = { CGO_ENABLED = "1" }
+run = "go test -race -count=1 ./..."
+
+[tasks."test:affected"]
+description = "Run one named contract package in under the repository hard budget"
+run = "go test -count=1 ./{{arg(name='package')}}"
+
+[tasks.vet]
+description = "Run go vet"
+run = "go vet ./..."
+
+[tasks.build]
+description = "Build every public contract package"
+run = "go build ./..."
+
+[tasks.boundary]
+description = "Verify public dependency, legacy-path, SDK, and Golden JSON boundaries"
+run = "go test -count=1 -run TestRepositoryBoundary ."
+
+[tasks.check]
+description = "Run formatting, vet, tests, public-boundary checks, and build"
+depends = ["format:check", "vet", "test", "boundary", "build"]
+run = "go version"
+
+[tasks."contracts:check"]
+description = "Canonical contract integrity gate used by consumers and Delivery v2"
+depends = ["check"]
+run = "go list -m"
+
+[tasks."delivery:build"]
+description = "Build the exact public Go module source"
+run = "go build ./..."
+
+[tasks."delivery:validate"]
+description = "Validate contracts, Golden JSON, boundaries, and module metadata"
+depends = ["contracts:check"]
+run = "go version"
+
+[tasks."delivery:publish"]
+description = "Verify publishable module metadata; the immutable tag/release adapter performs publication"
+run = "go run ./internal/cmd/deliverytask -phase=publish"
+
+[tasks."delivery:promote"]
+description = "Verify stable promotion inputs; no mutable registry promotion exists for Go modules"
+run = "go run ./internal/cmd/deliverytask -phase=promote"
+
+[tasks."delivery:smoke"]
+description = "Compile and test the public module as its post-publication smoke"
+depends = ["test", "build"]
+run = "go list -m"
+
+[tasks."delivery:async"]
+description = "Report that this library has no asynchronous delivery phase"
+run = "go run ./internal/cmd/deliverytask -phase=async"

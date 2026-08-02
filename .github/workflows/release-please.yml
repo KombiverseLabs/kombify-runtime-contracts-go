@@ -1,0 +1,22 @@
+name: release-please
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: release-please-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    uses: KombiverseLabs/.github/.github/workflows/release-please.yml@c8a984ad6c8c2ef6affedc6e85913aed9f8c5b2c
+    with:
+      config-file: release-please-config.json
+      manifest-file: .release-please-manifest.json
+    secrets:
+      RELEASE_PLEASE_TOKEN: ${{ github.token }}

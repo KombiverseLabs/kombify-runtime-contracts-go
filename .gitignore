@@ -1,0 +1,25 @@
+# Go build output
+*.exe
+*.test
+*.out
+/vendor/
+
+# Local configuration and secret material
+.env
+.env.*
+*.key
+*.pem
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local workspace caches
+.beads/backup/
+.beads/embeddeddolt/
+.beads/interactions.jsonl
+.beads/export-state.json
+.beads/last-touched
+.beads/.local_version

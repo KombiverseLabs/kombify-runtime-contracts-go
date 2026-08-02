@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "stackkit.stackaction-generation-manifest/v1",
+  "generatorVersion": "stackactiongen/v1",
+  "wireVersion": "stackkit.stack-action/v1",
+  "source": {
+    "path": "base/stack_action.cue",
+    "sha256": "c7e4042ee1032a8febf9e2f7287fd1f7373e4d6c9bdba8300af78523317ee5a1"
+  },
+  "outputs": {
+    "contract.ir.json": "bdd60c365600b0118bb1dd3637119f5b4bebcac2e28afc530c24c9c8be47bba2",
+    "openapi.yaml": "89b92c647ee111ef0807c8565458fac221bd9967a721a0c08bf80b38ee7c1657",
+    "stackaction_gen.go": "938a747cb520eeb11db4f11417a6d7d8905d704e5d1aa633d57e740b0d989229"
+  }
+}
