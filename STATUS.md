@@ -42,7 +42,9 @@ maturity: alpha
 ## Known Issues
 
 - The immutable historical `v0.1.3` tag points at source that still declared
-  `0.1.0`. Source now declares `0.1.4`, and every future Delivery release must
-  bind its requested version and tag to that exact committed declaration.
-- `v0.1.4` is not tagged or released by this correction change; publication
-  remains an explicit Delivery action after the change lands on `main`.
+  `0.1.0`. The corrective `v0.1.4` prerelease resolves exactly to
+  `b9843afb7cc05ce0c7f408086998aaa735d197aa`; future Delivery releases bind the
+  requested plan, version, tag, source, and existing release metadata.
+- Cross-repository compatibility fixtures and breaking-change evidence are the
+  current `v0.2.0` work; the module boundary alone does not prove every future
+  consumer upgrade.
