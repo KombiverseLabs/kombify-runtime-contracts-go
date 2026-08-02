@@ -125,15 +125,15 @@ linear_project: Development
 _Generated from Beads open statuses owned by `kombify-runtime-contracts-go`; milestone sections use
 `milestone:*` / `blocks:*` labels, unmapped repo issues are listed separately, and
 shared-store ownership requires an exact `repo:kombify-runtime-contracts-go` or repo-short label — do not edit;
-refresh via `mise run roadmap:update -- -Repo kombify-runtime-contracts-go`. Source: `bd list`, 2026-08-02._
+refresh via `mise run roadmap:update -- -Repo kombify-runtime-contracts-go`. Source: `bd list`, 2026-08-03._
 
 _Unowned shared-store issues are omitted; run the workspace ownership audit before claiming completeness._
 
 ### M1 · v0.2.0 — Compatibility Evidence (0 open)
 - none
 
-### M2 · v0.3.0 — Release Discipline (1 open)
-- `platform-iqzf2` Bind public runtime release adapter to the central compiler pin and exact dispatch (P1, open · blocking)
+### M2 · v0.3.0 — Release Discipline (0 open)
+- none
 
 ### M3 · v0.4.0 — API Stability Candidate (0 open)
 - none
@@ -141,7 +141,7 @@ _Unowned shared-store issues are omitted; run the workspace ownership audit befo
 ### Unmapped Beads (0 open)
 - none
 
-**Total open:** 1
+**Total open:** 0
 <!-- END GENERATED: open-issues kombify-roadmap-sync -->
 
 ## V1 Definition
