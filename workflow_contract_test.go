@@ -25,6 +25,26 @@ func TestDeliveryReleaseRequiresSuffixFreeNumericSemVer(t *testing.T) {
 	if !strings.Contains(workflow, `fast-pre-1.0) [[ "$DELIVERY_VERSION" == 0.* ]]`) {
 		t.Fatal("fast pre-1.0 profile is not bound to numeric v0.x")
 	}
+	if !strings.Contains(workflow, `go run ./internal/cmd/deliverytask -phase=publish`) {
+		t.Fatal("delivery release does not validate the requested version and tag against .kombify/VERSION")
+	}
+}
+
+func TestDeliveryPlanUsesExactSourceVersion(t *testing.T) {
+	t.Parallel()
+
+	payload, err := os.ReadFile(".github/workflows/delivery.yml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	workflow := string(payload)
+	if !strings.Contains(workflow, `fs.readFileSync(".kombify/VERSION", "utf8").trim()`) ||
+		!strings.Contains(workflow, `process.stdout.write(declared)`) {
+		t.Fatal("delivery plan version is not derived from the exact source version")
+	}
+	if strings.Contains(workflow, `rev-list`) || strings.Contains(workflow, `BigInt(match[3])`) {
+		t.Fatal("delivery plan still synthesizes an uncommitted release version")
+	}
 }
 
 func TestDeliveryExecutionIsExplicitAndFailClosed(t *testing.T) {

@@ -73,18 +73,10 @@ jobs:
           set -euo pipefail
           VERSION="$(node --input-type=module <<'NODE'
           import fs from "node:fs";
-          import { execFileSync } from "node:child_process";
           const declared = fs.readFileSync(".kombify/VERSION", "utf8").trim();
           const match = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.exec(declared);
           if (!match) throw new Error(".kombify/VERSION must be suffix-free MAJOR.MINOR.PATCH SemVer");
-          if (match[1] !== "0") {
-            process.stdout.write(declared);
-          } else {
-            const anchor = execFileSync("git", ["log", "-1", "--format=%H", "--", ".kombify/VERSION"], { encoding: "utf8" }).trim();
-            if (!/^[0-9a-f]{40}$/.test(anchor)) throw new Error("cannot resolve .kombify/VERSION anchor");
-            const distance = BigInt(execFileSync("git", ["rev-list", "--count", "--first-parent", `${anchor}..${process.env.SOURCE_SHA}`], { encoding: "utf8" }).trim());
-            process.stdout.write(`${match[1]}.${match[2]}.${BigInt(match[3]) + distance}`);
-          }
+          process.stdout.write(declared);
           NODE
           )"
           SOURCE_MAP_JSON="$(node -e 'process.stdout.write(JSON.stringify({[process.env.SOURCE_REPOSITORY]: process.env.SOURCE_SHA}))')"

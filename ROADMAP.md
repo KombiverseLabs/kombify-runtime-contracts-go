@@ -11,19 +11,20 @@ linear_project: Development
 
 ## Current Focus
 
-- **Target:** v0.1.0 - Runtime Contract Authority Baseline
+- **Target:** v0.1.4 - Release Identity Integrity
 - **Outcome:** Runtime consumers share one dependency-light public Go module
   for runtime leases, provider execution, inventory, and StackKits actions.
 - **Exit gate:** Golden fixtures and generation provenance pass, Techstack and
   bounded conformance consumers compile against the exact module revision, and
   no retired compatibility path remains in the coordinated cutover.
-- **Blocking bugs:** Beads label `blocks:v0.1.0`
+- **Blocking bugs:** Beads label `blocks:v0.1.4`
 
 ## Expansion Track
 
 | Version | Stage | State | Outcome |
 | --- | --- | --- | --- |
-| v0.1.0 | Runtime Contract Authority Baseline | current | Four contract packages, generation provenance, public boundary checks, and coordinated consumer compilation are proven. |
+| v0.1.0 | Runtime Contract Authority Baseline | superseded | Four contract packages, generation provenance, public boundary checks, and coordinated consumer compilation are proven. |
+| v0.1.4 | Release Identity Integrity | current | Source version, requested Delivery version, and immutable module tag are one fail-closed identity. |
 | v0.2.0 | Compatibility Evidence | planned | Cross-repository fixture verification and breaking-change evidence are automated for every consumer. |
 | v0.3.0 | Release Discipline | planned | Release notes, source attestations, and compatibility policy are exercised across multiple upgrades. |
 
@@ -36,17 +37,33 @@ linear_project: Development
 - [x] Publish the secret-free `runtimeinventory` read model and Golden JSON.
 - [x] Ingest `stackaction` only from the deterministic StackKits CUE generation bundle.
 - [x] Add public dependency, provider-SDK, secret-field, and retired-path boundary checks.
-- [ ] Prove Techstack and bounded conformance consumers compile against one exact module revision.
-- [ ] Remove the transitional contract packages from `kombify-go-common` in the coordinated cutover.
-- [ ] Publish the `v0.1.0` tag only after both consumer and removal gates pass.
+- [x] Prove Techstack and bounded conformance consumers compile against one exact module revision.
+- [x] Remove the transitional contract packages from `kombify-go-common` in the coordinated cutover.
+- [x] Supersede the unpublished `v0.1.0` baseline with the historical `v0.1.3` publication.
 
 **Exit gate**
 
 - [x] `mise run check` passes from a clean checkout.
 - [x] Golden JSON and StackAction generation provenance are deterministic.
 - [x] No private Kombify module, provider SDK, credential type, adapter registry, product state, or legacy alias is present.
-- [ ] Every coordinated consumer uses the exact tagged contract version.
+- [x] Every coordinated consumer uses the exact tagged contract version.
 - [ ] No open P0/P1 Beads issues with `blocks:v0.1.0`.
+
+## v0.1.4 - Release Identity Integrity
+
+**Scope**
+
+- [x] Correct the committed source version after the immutable `v0.1.3` historical release.
+- [x] Bind Delivery Plan version derivation to the exact committed source version.
+- [x] Reject release versions or tags that differ from `.kombify/VERSION`.
+- [x] Keep Release Please version files aligned with its release proposal.
+- [ ] Publish `v0.1.4` only through an explicitly approved Delivery run from exact `main`.
+
+**Exit gate**
+
+- [x] Unit and workflow contract tests cover source, version, and tag mismatches.
+- [x] The dependency-light four-package public boundary remains unchanged.
+- [ ] `v0.1.4` resolves to exact approved `main` and its GitHub release is verified.
 
 ## v0.2.0 - Compatibility Evidence
 

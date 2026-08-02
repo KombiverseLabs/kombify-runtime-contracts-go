@@ -38,6 +38,8 @@ maturity: alpha
 
 ## Known Issues
 
-- The first `v0.1.0` tag remains intentionally unpublished until Techstack and
-  the other coordinated consumers compile against this module at one exact
-  revision.
+- The immutable historical `v0.1.3` tag points at source that still declared
+  `0.1.0`. Source now declares `0.1.4`, and every future Delivery release must
+  bind its requested version and tag to that exact committed declaration.
+- `v0.1.4` is not tagged or released by this correction change; publication
+  remains an explicit Delivery action after the change lands on `main`.
