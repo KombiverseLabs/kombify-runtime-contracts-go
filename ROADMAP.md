@@ -1,6 +1,6 @@
 ---
 title: kombify-runtime-contracts-go Roadmap
-last_verified: 2026-08-02
+last_verified: 2026-08-03
 roadmap_standard: kombify-roadmap@v1
 generator: kombify-roadmap-sync@v1
 track: v0-expansion
@@ -91,11 +91,17 @@ linear_project: Development
 
 **Scope**
 
+- [x] Bind plan compilation and release execution to one exact centrally
+  authorized Delivery compiler revision.
+- [x] Correlate the authoritative release workflow by immutable release ID and
+  plan digest instead of source SHA alone.
 - [ ] Exercise release notes and source attestations across multiple upgrades.
 - [ ] Prove coordinated rollback to the preceding compatible contract set.
 
 **Exit gate**
 
+- [x] Manual or stale dispatches fail before compiler execution when their
+  compiler ref is missing, malformed, or differs from the organization pin.
 - [ ] At least two cross-repository upgrades complete without compatibility aliases.
 
 ## v0.4.0 - API Stability Candidate

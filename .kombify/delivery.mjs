@@ -379,6 +379,10 @@ async function main() {
       "DELIVERY_PROFILE",
     ),
     DELIVERY_RELEASE_ID: process.env.DELIVERY_RELEASE_ID ?? "",
+    DELIVERY_STANDARDS_REF: requireString(
+      process.env.DELIVERY_STANDARDS_REF,
+      "DELIVERY_STANDARDS_REF",
+    ),
     DELIVERY_VERSION: process.env.DELIVERY_VERSION ?? "",
     DELIVERY_TAG: process.env.DELIVERY_TAG ?? "",
     SOURCE_REPOSITORY:
@@ -391,6 +395,9 @@ async function main() {
     )
   ) {
     fail("DELIVERY_PROFILE must be fast-pre-1.0 or stable-1.0-plus");
+  }
+  if (!/^[0-9a-f]{40}$/.test(variables.DELIVERY_STANDARDS_REF)) {
+    fail("DELIVERY_STANDARDS_REF must be an exact lowercase 40-character commit SHA");
   }
 
   const groups = Array.isArray(config.groups) ? config.groups : [];

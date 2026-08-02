@@ -7,6 +7,8 @@ All notable changes to this module are documented here.
 - Bind the `runtimeinventory` projection to its canonical Techstack schema with
   an exact source/output digest manifest instead of a parallel hand-maintained
   field map.
+- Bind release dispatches to the exact centrally pinned Delivery compiler and
+  correlate the authoritative adapter run by release identity plus plan digest.
 
 ## 0.1.4 - 2026-08-02
 
