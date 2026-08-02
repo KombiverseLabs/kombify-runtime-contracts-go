@@ -1,6 +1,6 @@
 # Kombify Runtime Contracts for Go
 
-[![SemVer baseline: v0.1.0](https://img.shields.io/badge/semver-v0.1.0-blue.svg)](VERSION)
+[![Latest release: v0.1.4](https://img.shields.io/badge/release-v0.1.4-blue.svg)](VERSION)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 Dependency-light, public Go contracts for the Kombify runtime boundary. The
@@ -28,12 +28,11 @@ adapter registry, database, durable product state, billing policy, or legacy
 ## Install
 
 ```bash
-go get github.com/KombiverseLabs/kombify-runtime-contracts-go@v0.1.0
+go get github.com/KombiverseLabs/kombify-runtime-contracts-go@v0.1.4
 ```
 
-Before the first release tag is cut, consumers pin an exact commit from the
-bootstrap branch. A tag is published only after the coordinated consumer
-cutover compiles against the same source revision.
+`v0.1.4` is the latest immutable public release. Changes on `main` remain
+unreleased until a Delivery run binds a new tag to the exact current source.
 
 ## Verify
 

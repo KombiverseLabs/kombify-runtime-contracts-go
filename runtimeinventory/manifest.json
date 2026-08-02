@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "techstack.runtimeinventory-generation-manifest/v1",
+  "generatorVersion": "runtimeinventorygen/v1",
+  "wireVersion": "runtimeinventory/v1",
+  "source": {
+    "repository": "github.com/KombiverseLabs/kombify-Techstack",
+    "path": "contracts/runtimeinventory/v1/schema.json",
+    "sha256": "bbcd6a6ff807a4a32372498049401a81aa430afafbfd66e58d33ef190c8f518c"
+  },
+  "outputs": {
+    "types.go": "eabc5bb7bca16da77983e3c4c333780ea8e522844e18a813a8a90ee091ff4970"
+  }
+}

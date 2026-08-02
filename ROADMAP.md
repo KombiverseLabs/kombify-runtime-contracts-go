@@ -23,10 +23,11 @@ linear_project: Development
 
 | Version | Stage | State | Outcome |
 | --- | --- | --- | --- |
-| v0.1.0 | Runtime Contract Authority Baseline | superseded | Four contract packages, generation provenance, public boundary checks, and coordinated consumer compilation are proven. |
-| v0.1.4 | Release Identity Integrity | released | Source version, requested Delivery version, and immutable module tag are one fail-closed identity. |
+| v0.1.0 | Runtime Contract Authority Baseline | done | Four contract packages, generation provenance, public boundary checks, and coordinated consumer compilation are proven. |
+| v0.1.4 | Release Identity Integrity | done | Source version, requested Delivery version, and immutable module tag are one fail-closed identity. |
 | v0.2.0 | Compatibility Evidence | current | Cross-repository fixture verification and breaking-change evidence are automated for every consumer. |
 | v0.3.0 | Release Discipline | planned | Release notes, source attestations, and compatibility policy are exercised across multiple upgrades. |
+| v0.4.0 | API Stability Candidate | planned | Public wire and Go evolution rules are proven across the active consumer set before any v1 commitment. |
 
 ## v0.1.0 - Runtime Contract Authority Baseline
 
@@ -47,7 +48,7 @@ linear_project: Development
 - [x] Golden JSON and StackAction generation provenance are deterministic.
 - [x] No private Kombify module, provider SDK, credential type, adapter registry, product state, or legacy alias is present.
 - [x] Every coordinated consumer uses the exact tagged contract version.
-- [ ] No open P0/P1 Beads issues with `blocks:v0.1.0`.
+- [x] No open P0/P1 Beads bugs with `blocks:v0.1.0`.
 
 ## v0.1.4 - Release Identity Integrity
 
@@ -72,6 +73,8 @@ linear_project: Development
 
 **Scope**
 
+- [x] Generate `runtimeinventory` from the Techstack-owned machine schema and
+  bind the copied projection to exact source/output digests.
 - [ ] Verify consumer fixtures against exact contract source hashes in CI.
 - [ ] Define additive-change and coordinated breaking-change evidence.
 - [ ] Add reusable fuzz corpora for closed JSON and digest validation.
@@ -79,6 +82,8 @@ linear_project: Development
 **Exit gate**
 
 - [ ] Every active consumer proves fixture compatibility in its own repository.
+- [x] Techstack proves exact schema, generated Go, published module, and OpenAPI
+  structural parity without a parallel field map.
 - [ ] Contract drift fails before a consumer merge.
 - [ ] No open P0/P1 Beads bugs with `blocks:v0.2.0`.
 
@@ -92,6 +97,46 @@ linear_project: Development
 **Exit gate**
 
 - [ ] At least two cross-repository upgrades complete without compatibility aliases.
+
+## v0.4.0 - API Stability Candidate
+
+**Scope**
+
+- [ ] Exercise the proposed public Go and JSON evolution rules against every
+  active consumer without compatibility wrappers.
+- [ ] Record the evidence required to freeze the four-package surface for a
+  future v1 decision.
+
+**Exit gate**
+
+- [ ] A v1 proposal can identify stable guarantees and remaining exceptions
+  from repeated upgrade evidence rather than repository-local assumptions.
+- [ ] No open P0/P1 Beads bugs with `blocks:v0.4.0`.
+
+<!-- BEGIN GENERATED: open-issues kombify-roadmap-sync -->
+## Open Issues
+
+_Generated from Beads open statuses owned by `kombify-runtime-contracts-go`; milestone sections use
+`milestone:*` / `blocks:*` labels, unmapped repo issues are listed separately, and
+shared-store ownership requires an exact `repo:kombify-runtime-contracts-go` or repo-short label — do not edit;
+refresh via `mise run roadmap:update -- -Repo kombify-runtime-contracts-go`. Source: `bd list`, 2026-08-02._
+
+_Unowned shared-store issues are omitted; run the workspace ownership audit before claiming completeness._
+
+### M1 · v0.2.0 — Compatibility Evidence (1 open)
+- `platform-dx346` Generate runtimeinventory from the Techstack schema with exact lineage (P0, open · blocking)
+
+### M2 · v0.3.0 — Release Discipline (0 open)
+- none
+
+### M3 · v0.4.0 — API Stability Candidate (0 open)
+- none
+
+### Unmapped Beads (0 open)
+- none
+
+**Total open:** 1
+<!-- END GENERATED: open-issues kombify-roadmap-sync -->
 
 ## V1 Definition
 

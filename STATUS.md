@@ -14,7 +14,9 @@ maturity: alpha
 - `providerexecutor/v1beta1` provides the single provider-control wire with
   bounded envelopes, deterministic digests, append validation, and
   provider-native absence evidence requirements.
-- `runtimeinventory` provides secret-free read DTOs and canonical Golden JSON.
+- `runtimeinventory` provides secret-free read DTOs and canonical Golden JSON,
+  copied byte-for-byte from the Techstack generator bundle and bound to the
+  canonical schema by exact source/output SHA-256 values.
 - `stackaction` is populated only from the StackKits-generated contract bundle;
   local hand-authored wire types are not accepted.
 - Root boundary tests reject private Kombify imports, provider SDKs, forbidden
@@ -31,8 +33,9 @@ maturity: alpha
 ## Tests
 
 - Package unit and wire-compatibility tests cover lease validation and signed
-  snapshots, provider command/receipt state transitions, inventory field
-  safety, generated StackAction wire behavior, and Golden JSON.
+  snapshots, provider command/receipt state transitions, Runtime Inventory
+  generation lineage and field safety, generated StackAction wire behavior,
+  and Golden JSON.
 - The release adapter recompiles the plan with the same immutable central
   compiler used by Delivery v2, rejects a different plan digest or identity,
   and accepts a repeated release only when all GitHub release metadata matches.

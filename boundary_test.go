@@ -23,6 +23,33 @@ var publicPackages = []string{
 func TestRepositoryBoundary(t *testing.T) {
 	t.Parallel()
 
+	allowedPublicDirs := make(map[string]bool, len(publicPackages))
+	for _, packagePath := range publicPackages {
+		allowedPublicDirs[filepath.Clean(filepath.FromSlash(packagePath))] = true
+	}
+	err := filepath.WalkDir(".", func(path string, entry os.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() {
+			if path == ".git" || path == "vendor" || path == "internal" {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+		if filepath.Ext(path) != ".go" || strings.HasSuffix(path, "_test.go") {
+			return nil
+		}
+		dir := filepath.Clean(filepath.Dir(path))
+		if !allowedPublicDirs[dir] {
+			return &boundaryError{path: path, message: "unexpected public Go package directory " + dir}
+		}
+		return nil
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	for _, packagePath := range publicPackages {
 		info, err := os.Stat(filepath.FromSlash(packagePath))
 		if err != nil || !info.IsDir() {
