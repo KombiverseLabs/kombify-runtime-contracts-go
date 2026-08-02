@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "product_id": "runtime-contracts",
+  "repository_id": "kombify-runtime-contracts-go",
+  "groups": [
+    {
+      "id": "runtime-contracts-module",
+      "source_repository": "kombify-runtime-contracts-go",
+      "primary_artifact": "go-module",
+      "artifacts": [
+        "go-module"
+      ],
+      "paths": [
+        "**/*.go",
+        "go.mod",
+        "go.sum",
+        ".kombify/**"
+      ],
+      "operations": {
+        "build": {
+          "fast": [
+            {
+              "task": "build"
+            }
+          ],
+          "stable": [
+            {
+              "task": "build"
+            }
+          ]
+        },
+        "validate": {
+          "fast": [
+            {
+              "task": "test"
+            }
+          ],
+          "stable": [
+            {
+              "task": "test:race"
+            }
+          ]
+        },
+        "publish": {
+          "fast": [
+            {
+              "workflow": "delivery-release.yml",
+              "inputs": {
+                "delivery_profile": "${DELIVERY_PROFILE}",
+                "delivery_plan_digest": "${DELIVERY_PLAN_DIGEST}",
+                "delivery_release_id": "${DELIVERY_RELEASE_ID}",
+                "delivery_source_sha": "${SOURCE_SHA}",
+                "delivery_version": "${DELIVERY_VERSION}",
+                "delivery_tag": "${DELIVERY_TAG}"
+              },
+              "wait_for_completion": true
+            }
+          ],
+          "stable": [
+            {
+              "workflow": "delivery-release.yml",
+              "inputs": {
+                "delivery_profile": "${DELIVERY_PROFILE}",
+                "delivery_plan_digest": "${DELIVERY_PLAN_DIGEST}",
+                "delivery_release_id": "${DELIVERY_RELEASE_ID}",
+                "delivery_source_sha": "${SOURCE_SHA}",
+                "delivery_version": "${DELIVERY_VERSION}",
+                "delivery_tag": "${DELIVERY_TAG}"
+              },
+              "wait_for_completion": true
+            }
+          ]
+        },
+        "promote": {
+          "fast": [
+            {
+              "satisfied": {
+                "by": "runtime-contracts-module/publish",
+                "reason": "The immutable artifact was activated by the group's authoritative publish adapter."
+              }
+            }
+          ],
+          "stable": [
+            {
+              "satisfied": {
+                "by": "runtime-contracts-module/publish",
+                "reason": "The immutable artifact was activated by the group's authoritative publish adapter."
+              }
+            }
+          ]
+        },
+        "smoke": {
+          "fast": [
+            {
+              "satisfied": {
+                "by": "runtime-contracts-module/publish",
+                "reason": "The public module release verifies the exact source, generated contract parity, immutable Git tag, and idempotent GitHub release."
+              }
+            }
+          ],
+          "stable": [
+            {
+              "satisfied": {
+                "by": "runtime-contracts-module/publish",
+                "reason": "The public module release verifies the exact source, generated contract parity, immutable Git tag, and idempotent GitHub release."
+              }
+            }
+          ]
+        },
+        "async": {
+          "fast": [
+            {
+              "satisfied": {
+                "by": "scheduled-asynchronous-gates",
+                "reason": "Broad compatibility, device, provider, and soak findings remain non-blocking and run in their dedicated scheduled workflows."
+              }
+            }
+          ],
+          "stable": [
+            {
+              "satisfied": {
+                "by": "scheduled-asynchronous-gates",
+                "reason": "Broad compatibility, device, provider, and soak findings remain non-blocking and run in their dedicated scheduled workflows."
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
