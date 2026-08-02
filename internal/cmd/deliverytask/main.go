@@ -6,11 +6,10 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
-)
 
-var semverPattern = regexp.MustCompile(`^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$`)
+	"github.com/KombiverseLabs/kombify-runtime-contracts-go/internal/releaseversion"
+)
 
 func main() {
 	phase := flag.String("phase", "", "delivery phase")
@@ -23,17 +22,21 @@ func main() {
 		fmt.Println("no asynchronous delivery phase for a Go contract module")
 		return
 	}
-	version := strings.TrimSpace(os.Getenv("DELIVERY_VERSION"))
-	if version == "" {
-		payload, err := os.ReadFile(".kombify/VERSION")
-		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			os.Exit(1)
-		}
-		version = strings.TrimSpace(string(payload))
+	sourceVersion, err := releaseversion.ReadSource(".kombify/VERSION")
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
-	if !semverPattern.MatchString(version) {
-		fmt.Fprintf(os.Stderr, "invalid delivery version %q\n", version)
+	version := os.Getenv("DELIVERY_VERSION")
+	if version == "" {
+		version = sourceVersion
+	}
+	tag := os.Getenv("DELIVERY_TAG")
+	if tag == "" {
+		tag = "v" + sourceVersion
+	}
+	if err := releaseversion.ValidateRequested(sourceVersion, version, tag); err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 	if *phase == "promote" && strings.HasPrefix(version, "0.") {

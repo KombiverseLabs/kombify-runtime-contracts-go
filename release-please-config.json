@@ -18,7 +18,11 @@
     ".": {
       "release-type": "go",
       "package-name": "kombify-runtime-contracts-go",
-      "component": "kombify-runtime-contracts-go"
+      "component": "kombify-runtime-contracts-go",
+      "extra-files": [
+        "VERSION",
+        ".kombify/VERSION"
+      ]
     }
   }
 }
