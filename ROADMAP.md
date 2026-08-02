@@ -126,8 +126,8 @@ _Unowned shared-store issues are omitted; run the workspace ownership audit befo
 ### M1 · v0.2.0 — Compatibility Evidence (0 open)
 - none
 
-### M2 · v0.3.0 — Release Discipline (0 open)
-- none
+### M2 · v0.3.0 — Release Discipline (1 open)
+- `platform-iqzf2` Bind public runtime release adapter to the central compiler pin and exact dispatch (P1, open · blocking)
 
 ### M3 · v0.4.0 — API Stability Candidate (0 open)
 - none
@@ -135,7 +135,7 @@ _Unowned shared-store issues are omitted; run the workspace ownership audit befo
 ### Unmapped Beads (0 open)
 - none
 
-**Total open:** 0
+**Total open:** 1
 <!-- END GENERATED: open-issues kombify-roadmap-sync -->
 
 ## V1 Definition
