@@ -55,14 +55,14 @@ jobs:
         run: |
           set -euo pipefail
           [[ "$DELIVERY_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
-          [[ "$DELIVERY_VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$ ]]
+          [[ "$DELIVERY_VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]
           test "$DELIVERY_TAG" = "v$DELIVERY_VERSION"
           test "$(git rev-parse HEAD)" = "$DELIVERY_SOURCE_SHA"
           git fetch origin main --no-tags
           test "$(git rev-parse origin/main)" = "$DELIVERY_SOURCE_SHA"
           case "$DELIVERY_PROFILE" in
-            fast-pre-1.0) [[ "$DELIVERY_VERSION" == 0.*-* ]] ;;
-            stable-1.0-plus) [[ "$DELIVERY_VERSION" != 0.* ]] && [[ "$DELIVERY_VERSION" != *-* ]] ;;
+            fast-pre-1.0) [[ "$DELIVERY_VERSION" == 0.* ]] ;;
+            stable-1.0-plus) [[ "$DELIVERY_VERSION" != 0.* ]] ;;
             *) echo "::error::unsupported delivery profile $DELIVERY_PROFILE"; exit 1 ;;
           esac
 

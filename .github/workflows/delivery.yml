@@ -32,7 +32,9 @@ jobs:
     with:
       product-id: runtime-contracts
       repository-id: kombify-runtime-contracts-go
-      execute: ${{ github.event_name != 'pull_request' && (github.event_name != 'workflow_dispatch' || inputs.execute) }}
+      # Bootstrap stays compile-only on push. Publication requires an explicit
+      # dispatch after every coordinated consumer gate has passed.
+      execute: ${{ github.event_name == 'workflow_dispatch' && inputs.execute }}
       stable-approved: ${{ github.event_name == 'workflow_dispatch' && inputs.approve-stable }}
       candidate-receipt-b64: ${{ github.event_name == 'workflow_dispatch' && inputs.candidate-receipt-b64 || '' }}
       base-sha: ${{ github.event_name == 'push' && github.event.before || github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}
