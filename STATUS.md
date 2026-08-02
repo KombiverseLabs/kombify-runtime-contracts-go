@@ -1,6 +1,6 @@
 ---
 title: STATUS
-last_verified: 2026-08-02
+last_verified: 2026-08-03
 maturity: alpha
 ---
 
@@ -36,9 +36,12 @@ maturity: alpha
   snapshots, provider command/receipt state transitions, Runtime Inventory
   generation lineage and field safety, generated StackAction wire behavior,
   and Golden JSON.
-- The release adapter recompiles the plan with the same immutable central
-  compiler used by Delivery v2, rejects a different plan digest or identity,
-  and accepts a repeated release only when all GitHub release metadata matches.
+- The plan captures the exact organization-pinned central compiler revision;
+  the release adapter rejects a missing, malformed, or changed compiler ref
+  before checkout, recompiles with that exact revision, and correlates the
+  authoritative workflow run by release identity plus plan digest.
+- The release adapter rejects a different plan digest or identity and accepts
+  a repeated release only when all GitHub release metadata matches.
 - CI runs formatting, `go vet`, race-enabled tests, build, and the boundary
   suite with a ten-minute job budget.
 

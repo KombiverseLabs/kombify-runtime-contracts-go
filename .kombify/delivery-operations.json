@@ -51,9 +51,11 @@
                 "delivery_release_id": "${DELIVERY_RELEASE_ID}",
                 "delivery_source_sha": "${SOURCE_SHA}",
                 "delivery_version": "${DELIVERY_VERSION}",
-                "delivery_tag": "${DELIVERY_TAG}"
+                "delivery_tag": "${DELIVERY_TAG}",
+                "delivery_standards_ref": "${DELIVERY_STANDARDS_REF}"
               },
-              "wait_for_completion": true
+              "wait_for_completion": true,
+              "run_name_contains": "${DELIVERY_RELEASE_ID}-${DELIVERY_PLAN_DIGEST}"
             }
           ],
           "stable": [
@@ -65,9 +67,11 @@
                 "delivery_release_id": "${DELIVERY_RELEASE_ID}",
                 "delivery_source_sha": "${SOURCE_SHA}",
                 "delivery_version": "${DELIVERY_VERSION}",
-                "delivery_tag": "${DELIVERY_TAG}"
+                "delivery_tag": "${DELIVERY_TAG}",
+                "delivery_standards_ref": "${DELIVERY_STANDARDS_REF}"
               },
-              "wait_for_completion": true
+              "wait_for_completion": true,
+              "run_name_contains": "${DELIVERY_RELEASE_ID}-${DELIVERY_PLAN_DIGEST}"
             }
           ]
         },
