@@ -123,8 +123,8 @@ refresh via `mise run roadmap:update -- -Repo kombify-runtime-contracts-go`. Sou
 
 _Unowned shared-store issues are omitted; run the workspace ownership audit before claiming completeness._
 
-### M1 · v0.2.0 — Compatibility Evidence (1 open)
-- `platform-dx346` Generate runtimeinventory from the Techstack schema with exact lineage (P0, open · blocking)
+### M1 · v0.2.0 — Compatibility Evidence (0 open)
+- none
 
 ### M2 · v0.3.0 — Release Discipline (0 open)
 - none
@@ -135,7 +135,7 @@ _Unowned shared-store issues are omitted; run the workspace ownership audit befo
 ### Unmapped Beads (0 open)
 - none
 
-**Total open:** 1
+**Total open:** 0
 <!-- END GENERATED: open-issues kombify-roadmap-sync -->
 
 ## V1 Definition
