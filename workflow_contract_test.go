@@ -30,6 +30,48 @@ func TestDeliveryReleaseRequiresSuffixFreeNumericSemVer(t *testing.T) {
 	}
 }
 
+func TestDeliveryReleaseRecompilesAndBindsExactPlan(t *testing.T) {
+	t.Parallel()
+
+	payload, err := os.ReadFile(".github/workflows/delivery-release.yml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	workflow := string(payload)
+	for _, required := range []string{
+		`ref: ac1a61286c11121c62a4c4f007fd8974f90a94b0`,
+		`node standards/scripts/delivery-platform.mjs compile`,
+		`node standards/scripts/delivery-platform.mjs validate-plan`,
+		`plan_digest: process.env.DELIVERY_PLAN_DIGEST`,
+		`release_id: process.env.DELIVERY_RELEASE_ID`,
+		`plan.sources?.["kombify-runtime-contracts-go"] !== expected.source_sha`,
+	} {
+		if !strings.Contains(workflow, required) {
+			t.Fatalf("delivery release does not bind the adapter to the exact compiled plan: missing %q", required)
+		}
+	}
+}
+
+func TestDeliveryReleaseIdempotencyRequiresExactMetadata(t *testing.T) {
+	t.Parallel()
+
+	payload, err := os.ReadFile(".github/workflows/delivery-release.yml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	workflow := string(payload)
+	for _, required := range []string{
+		`--json tagName,isPrerelease,name,body,url`,
+		`release.name !== process.env.EXPECTED_TITLE`,
+		`release.body !== process.env.EXPECTED_BODY`,
+		`release.isPrerelease !== expectedPrerelease`,
+	} {
+		if !strings.Contains(workflow, required) {
+			t.Fatalf("delivery release can accept conflicting existing metadata: missing %q", required)
+		}
+	}
+}
+
 func TestDeliveryPlanUsesExactSourceVersion(t *testing.T) {
 	t.Parallel()
 
