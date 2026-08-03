@@ -21,3 +21,9 @@ into deterministic package-level phases instead of extending its timeout.
 `stackaction` changes start in StackKits CUE and are regenerated there. Commit
 the verified bundle and source/output hashes together with the consumer
 projection.
+
+Contract-facing changes also run the root compatibility corpus. A consumer
+must copy only relevant secret-free seeds into its own repository, lock their
+SHA-256 values together with the exact module `h1:` checksum, and select that
+focused gate for dependency or contract-facing changes. Do not satisfy a
+consumer upgrade with a compile-only check.

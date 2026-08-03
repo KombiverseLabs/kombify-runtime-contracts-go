@@ -50,7 +50,11 @@ The module follows Semantic Versioning. While the module is below `v1.0.0`,
 wire-compatible additions use a minor release and breaking wire or Go API
 changes require a coordinated minor-version cutover. Published JSON field
 names, enum values, digest rules, and Golden fixtures are compatibility
-contracts. No retired package path is retained as an alias or wrapper.
+contracts. No retired package path is retained as an alias or wrapper. The
+[consumer evidence contract](compatibility/README.md) binds each consumer to
+the exact module checksum and its own exercised fixtures; the additive and
+coordinated-breaking requirements are defined in
+[docs/COMPATIBILITY.md](docs/COMPATIBILITY.md).
 
 Current implementation evidence is in [STATUS.md](STATUS.md), future release
 scope is in [ROADMAP.md](ROADMAP.md), and package architecture and API rules

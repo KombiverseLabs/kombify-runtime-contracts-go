@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "kombify.runtime-contract-fuzz-corpus/v1",
+  "fixtures": [
+    {
+      "package": "providerexecutor/v1beta1",
+      "path": "compatibility/corpus/closed-json/providerexecutor-v1beta1.json",
+      "sha256": "6ae5d7b98c43d1a80559af39c4c7ddeb51e62d74b14a3a2fa271c20df3483c5e"
+    },
+    {
+      "package": "runtimeinventory",
+      "path": "compatibility/corpus/closed-json/runtimeinventory.json",
+      "sha256": "a7b037452d4af2be201128f2e1fe99022dc0f568d30a53a8e71e49a194965095"
+    },
+    {
+      "package": "runtimelease",
+      "path": "compatibility/corpus/closed-json/runtimelease.json",
+      "sha256": "d31e2c1688ce0d56950f7a95074b27bfcdd6340cc6d4f9d8b96f9054a5ac69d2"
+    },
+    {
+      "package": "stackaction",
+      "path": "compatibility/corpus/closed-json/stackaction.json",
+      "sha256": "6664b64856a9b416e9a2b1b4bd3a2d25a7acdd610f758069ef1d6e852ce0b684"
+    }
+  ],
+  "digestSeeds": [
+    {
+      "path": "compatibility/corpus/digest/native-ref.txt",
+      "sha256": "ba0b066c8cd6f4e9eef4179f2c37db54e50545af8e675019a4b7f238c405d0da"
+    }
+  ]
+}
