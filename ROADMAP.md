@@ -75,17 +75,17 @@ linear_project: Development
 
 - [x] Generate `runtimeinventory` from the Techstack-owned machine schema and
   bind the copied projection to exact source/output digests.
-- [ ] Verify consumer fixtures against exact contract source hashes in CI.
+- [x] Verify consumer fixtures against exact contract source hashes in CI.
 - [x] Define additive-change and coordinated breaking-change evidence.
 - [x] Add reusable fuzz corpora for closed JSON and digest validation.
 
 **Exit gate**
 
-- [ ] Every active consumer proves fixture compatibility in its own repository.
+- [x] Every active consumer proves fixture compatibility in its own repository.
 - [x] Techstack proves exact schema, generated Go, published module, and OpenAPI
   structural parity without a parallel field map.
-- [ ] Contract drift fails before a consumer merge.
-- [ ] No open P0/P1 Beads bugs with `blocks:v0.2.0`.
+- [x] Contract drift fails before a consumer merge.
+- [x] No open P0/P1 Beads bugs with `blocks:v0.2.0`.
 
 ## v0.3.0 - Release Discipline
 
