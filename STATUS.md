@@ -21,6 +21,9 @@ maturity: alpha
   local hand-authored wire types are not accepted.
 - Root boundary tests reject private Kombify imports, provider SDKs, forbidden
   legacy package paths, and invalid Golden JSON.
+- The public consumer-lock schema binds an exact module version and Go module
+  checksum to consumer-owned fixture hashes. The shared corpus strictly
+  decodes all four wires and fuzzes closed JSON plus deterministic digests.
 
 ## Dependencies
 
@@ -51,6 +54,6 @@ maturity: alpha
   `0.1.0`. The corrective `v0.1.4` prerelease resolves exactly to
   `b9843afb7cc05ce0c7f408086998aaa735d197aa`; future Delivery releases bind the
   requested plan, version, tag, source, and existing release metadata.
-- Cross-repository compatibility fixtures and breaking-change evidence are the
-  current `v0.2.0` work; the module boundary alone does not prove every future
-  consumer upgrade.
+- Techstack and the bounded Simulate conformance consumer still need to land
+  their repository-local locks and exercised fixtures before the `v0.2.0`
+  cross-repository exit gate is complete.

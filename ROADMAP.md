@@ -76,8 +76,8 @@ linear_project: Development
 - [x] Generate `runtimeinventory` from the Techstack-owned machine schema and
   bind the copied projection to exact source/output digests.
 - [ ] Verify consumer fixtures against exact contract source hashes in CI.
-- [ ] Define additive-change and coordinated breaking-change evidence.
-- [ ] Add reusable fuzz corpora for closed JSON and digest validation.
+- [x] Define additive-change and coordinated breaking-change evidence.
+- [x] Add reusable fuzz corpora for closed JSON and digest validation.
 
 **Exit gate**
 
