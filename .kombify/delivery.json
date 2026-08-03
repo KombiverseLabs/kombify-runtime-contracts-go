@@ -36,7 +36,12 @@
         "fast": "forward-fix",
         "stable": "halt-corrective-release"
       },
-      "secret_bindings": [],
+      "secret_bindings": [
+        {
+          "ref": "github.org-pat",
+          "as": "GH_PAT"
+        }
+      ],
       "telemetry_service": "runtime-contracts.module"
     }
   ]
