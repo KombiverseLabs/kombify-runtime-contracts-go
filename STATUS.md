@@ -47,6 +47,11 @@ maturity: alpha
   a repeated release only when all GitHub release metadata matches.
 - CI runs formatting, `go vet`, race-enabled tests, build, and the boundary
   suite with a ten-minute job budget.
+- Cross-repository `v0.2.0` evidence is complete at Techstack main
+  `d4ad588e719d9f6f40bd3ce1fd83ae288076ef5b` for all four packages and the
+  bounded Simulate main `de90a35aee9ca8ecbca1970ac8d74834b7b5aef6` for
+  `providerexecutor/v1beta1`. Each consumer binds `v0.1.4` to its exact module
+  checksum and repository-owned strict fixtures in its merge gate.
 
 ## Known Issues
 
@@ -54,6 +59,3 @@ maturity: alpha
   `0.1.0`. The corrective `v0.1.4` prerelease resolves exactly to
   `b9843afb7cc05ce0c7f408086998aaa735d197aa`; future Delivery releases bind the
   requested plan, version, tag, source, and existing release metadata.
-- Techstack and the bounded Simulate conformance consumer still need to land
-  their repository-local locks and exercised fixtures before the `v0.2.0`
-  cross-repository exit gate is complete.
